@@ -1,0 +1,3 @@
+*.tflite
+Tensorflow Quantization/*/coco_hand_centernet_resnet50
+Tensorflow Quantization*/coco_hand_ssd_mobilenet_v2_fpn_320
