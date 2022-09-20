@@ -4,3 +4,6 @@
 *.pb
 *checkpoints
 *variables
+*.jpg
+*.jpeg
+*.png
