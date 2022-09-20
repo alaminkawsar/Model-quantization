@@ -1,0 +1,6 @@
+*.tflite
+*.zip
+*saved_model
+*.pb
+*checkpoints
+*variables
