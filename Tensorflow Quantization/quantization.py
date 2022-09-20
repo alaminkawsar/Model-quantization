@@ -1,14 +1,18 @@
 import tensorflow as tf
 
-saved_model_dir = '/home/kawsar/Desktop/Deep Learning/Tensorflow Quantization/coco_hand_centernet_resnet50/saved_model'
-converter = tf.lite.TFLiteConverter.from_saved_model(saved_model_dir)
+
+_TFLITE_MODEL_PATH = "/home/kawsar/Desktop/Deep Learning/Deep-Learning-Model_Quantization/Tensorflow Quantization/efficientdet_lite2.tflite"
+
+converter = tf.lite.TFLiteConverter.from_saved_model('/home/kawsar/Desktop/Deep Learning/Deep-Learning-Model_Quantization/Tensorflow Quantization/efficientdet_lite2_detection')
 converter.optimizations = [tf.lite.Optimize.DEFAULT]
+#converter.optimizations = [tf.lite.Optimize.OPTIMIZE_FOR_SIZE]
+converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS, tf.lite.OpsSet.SELECT_TF_OPS]
+converter.allow_custom_ops=True
+tflite_model = converter.convert()
 
-converter.target_spec.supported_ops = [
-  tf.lite.OpsSet.TFLITE_BUILTINS, # enable TensorFlow Lite ops.
-  tf.lite.OpsSet.SELECT_TF_OPS # enable TensorFlow ops.
-]
-tflite_quant_model = converter.convert()
+interpreter = tf.lite.Interpreter(model_content=tflite_model)
+signature_details = interpreter.get_signature_list()
+print(signature_details)
 
-with open("./coco_hand_centernet_resnet50/hand_detector_centernet_resnet50_quant.tflite","wb") as f:
-    f.write(tflite_quant_model)
+with open(_TFLITE_MODEL_PATH, 'wb') as f:
+  f.write(tflite_model)
